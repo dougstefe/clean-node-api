@@ -8,5 +8,6 @@ export default {
   },
   roots: [
     '<rootDir>/src'
-  ]
+  ],
+  testEnvironment: 'node'
 }

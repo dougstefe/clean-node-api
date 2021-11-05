@@ -1,6 +1,3 @@
-function teste (): number {
-  const a = 1
-  const b = 2
+export default function (a: number, b: number): number {
   return a + b
 }
-teste()
