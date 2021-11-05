@@ -4,11 +4,11 @@ import { badRequest } from '../helpers/http-helper'
 
 export default class SignUpController {
   handle (httpRequest: HttpRequest): HttpResponse {
-    if (!httpRequest.body.name) {
-      return badRequest(new FieldRequiredError('name'))
-    }
-    if (!httpRequest.body.email) {
-      return badRequest(new FieldRequiredError('email'))
+    const requiredFields = ['name', 'email', 'password']
+    for (const field of requiredFields) {
+      if (!httpRequest.body[field]) {
+        return badRequest(new FieldRequiredError(field))
+      }
     }
     return {
       statusCode: 204,
