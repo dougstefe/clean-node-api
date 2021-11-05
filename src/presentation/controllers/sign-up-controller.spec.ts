@@ -1,4 +1,5 @@
-import SignUpController from './signUpController'
+import { FieldRequiredError } from '../errors/missing-param-error'
+import SignUpController from './sign-up-controller'
 
 describe('SignUpController', () => {
   test('Should return 400 if no name', () => {
@@ -12,7 +13,7 @@ describe('SignUpController', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Field \'name\' is required.'))
+    expect(httpResponse.body).toEqual(new FieldRequiredError('name'))
   })
   test('Should return 400 if no email', () => {
     const sut = new SignUpController()
@@ -25,6 +26,6 @@ describe('SignUpController', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Field \'email\' is required.'))
+    expect(httpResponse.body).toEqual(new FieldRequiredError('email'))
   })
 })

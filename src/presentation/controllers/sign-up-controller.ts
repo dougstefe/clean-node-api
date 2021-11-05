@@ -1,21 +1,17 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
+import { FieldRequiredError } from '../errors/missing-param-error'
+import { badRequest } from '../helpers/http-helper'
 
 export default class SignUpController {
   handle (httpRequest: HttpRequest): HttpResponse {
     if (!httpRequest.body.name) {
-      return {
-        statusCode: 400,
-        body: new Error('Field \'name\' is required.')
-      }
+      return badRequest(new FieldRequiredError('name'))
     }
     if (!httpRequest.body.email) {
-      return {
-        statusCode: 400,
-        body: new Error('Field \'email\' is required.')
-      }
+      return badRequest(new FieldRequiredError('email'))
     }
     return {
-      statusCode: 200,
+      statusCode: 204,
       body: {}
     }
   }
