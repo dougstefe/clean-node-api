@@ -1,9 +1,13 @@
 import { FieldRequiredError } from '../errors/missing-param-error'
 import SignUpController from './sign-up-controller'
 
+const makeSut = (): SignUpController => {
+  return new SignUpController()
+}
+
 describe('SignUpController', () => {
   test('Should return 400 if no name', () => {
-    const sut = new SignUpController()
+    const sut = makeSut()
     const httpRequest = {
       body: {
         email: 'any@email.com',
@@ -16,7 +20,7 @@ describe('SignUpController', () => {
     expect(httpResponse.body).toEqual(new FieldRequiredError('name'))
   })
   test('Should return 400 if no email', () => {
-    const sut = new SignUpController()
+    const sut = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -29,7 +33,7 @@ describe('SignUpController', () => {
     expect(httpResponse.body).toEqual(new FieldRequiredError('email'))
   })
   test('Should return 400 if no password', () => {
-    const sut = new SignUpController()
+    const sut = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -42,7 +46,7 @@ describe('SignUpController', () => {
     expect(httpResponse.body).toEqual(new FieldRequiredError('password'))
   })
   test('Should return 400 if no passwordConfirmation', () => {
-    const sut = new SignUpController()
+    const sut = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
