@@ -1,5 +1,5 @@
 import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
-import { badRequest, InternalServerError } from '../helpers/http-helper'
+import { badRequest, internalServerError } from '../helpers/http-helper'
 import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../protocols'
 
 export default class SignUpController implements Controller {
@@ -25,7 +25,7 @@ export default class SignUpController implements Controller {
         body: {}
       }
     } catch (error) {
-      return InternalServerError(new ServerError())
+      return internalServerError(new ServerError())
     }
   }
 }
