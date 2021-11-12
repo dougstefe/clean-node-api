@@ -20,6 +20,9 @@ export default class SignUpController implements Controller {
       if (!this.emailValidator.isValid(httpRequest.body.email)) {
         return badRequest(new InvalidFieldError('email'))
       }
+      if (httpRequest.body.password !== httpRequest.body.passwordConfirmation) {
+        return badRequest(new InvalidFieldError('passwordConfirmation'))
+      }
       return {
         statusCode: 204,
         body: {}
