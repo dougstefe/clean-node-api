@@ -27,14 +27,14 @@ export default class SignUpController implements Controller {
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidFieldError('passwordConfirmation'))
       }
-      this.accountService.add({
+      const accountModel = this.accountService.add({
         name,
         email,
         password
       })
       return {
-        statusCode: 204,
-        body: {}
+        statusCode: 201,
+        body: accountModel
       }
     } catch (error) {
       return internalServerError(new ServerError())
