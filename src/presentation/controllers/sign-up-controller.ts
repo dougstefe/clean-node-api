@@ -1,6 +1,6 @@
 import { AccountService } from '../../domain/interfaces/account-service'
 import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
-import { badRequest, internalServerError } from '../helpers/http-helper'
+import { badRequest, created, internalServerError } from '../helpers/http-helper'
 import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../protocols'
 
 export default class SignUpController implements Controller {
@@ -32,10 +32,7 @@ export default class SignUpController implements Controller {
         email,
         password
       })
-      return {
-        statusCode: 201,
-        body: accountModel
-      }
+      return created(accountModel)
     } catch (error) {
       return internalServerError(new ServerError())
     }
