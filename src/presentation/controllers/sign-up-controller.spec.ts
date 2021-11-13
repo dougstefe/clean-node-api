@@ -157,6 +157,23 @@ describe('SignUpController', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidFieldError('passwordConfirmation'))
   })
+  test('Should return 500 AccountService.Add throws', () => {
+    const { sut, accountServiceStub } = makeSut()
+    jest.spyOn(accountServiceStub, 'add').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
   test('Should call AddAccount with correct values', () => {
     const { sut, accountServiceStub } = makeSut()
     const addSpy = jest.spyOn(accountServiceStub, 'add')
