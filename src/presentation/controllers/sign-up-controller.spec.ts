@@ -1,3 +1,5 @@
+import { AddAccountModel, AccountService } from '../../domain/interfaces/account-service'
+import { AccountModel } from '../../domain/models'
 import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
 import { EmailValidator } from '../protocols'
 import SignUpController from './sign-up-controller'
@@ -5,6 +7,7 @@ import SignUpController from './sign-up-controller'
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
+  accountServiceStub: AccountService
 }
 
 const makeEmailValidator = (): EmailValidator => {
@@ -16,12 +19,28 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeAccountServiceAdd = (): AccountService => {
+  class AccountServiceStub implements AccountService {
+    add (account: AddAccountModel): AccountModel {
+      return {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password: 'valid_password'
+      }
+    }
+  }
+  return new AccountServiceStub()
+}
+
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
-  const sut = new SignUpController(emailValidatorStub)
+  const accountServiceStub = makeAccountServiceAdd()
+  const sut = new SignUpController(emailValidatorStub, accountServiceStub)
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    accountServiceStub
   }
 }
 
@@ -30,7 +49,7 @@ describe('SignUpController', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        email: 'any@email.com',
+        email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password'
       }
@@ -57,7 +76,7 @@ describe('SignUpController', () => {
     const httpRequest = {
       body: {
         name: 'any_name',
-        email: 'any@email.com',
+        email: 'any_email@email.com',
         passwordConfirmation: 'any_password'
       }
     }
@@ -70,7 +89,7 @@ describe('SignUpController', () => {
     const httpRequest = {
       body: {
         name: 'any_name',
-        email: 'any@email.com',
+        email: 'any_email@email.com',
         password: 'any_password'
       }
     }
@@ -137,5 +156,23 @@ describe('SignUpController', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidFieldError('passwordConfirmation'))
+  })
+  test('Should call AddAccount with correct values', () => {
+    const { sut, accountServiceStub } = makeSut()
+    const addSpy = jest.spyOn(accountServiceStub, 'add')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password'
+    })
   })
 })
