@@ -34,6 +34,7 @@ export default class SignUpController implements Controller {
       })
       return created(accountModel)
     } catch (error) {
+      console.error(error)
       return internalServerError(new ServerError())
     }
   }
