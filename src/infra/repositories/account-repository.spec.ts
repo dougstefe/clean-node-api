@@ -2,13 +2,20 @@ import { Encrypter } from '../interfaces/encrypter'
 import { AccountRepository } from './account-repository'
 
 describe('AccountRepository', () => {
-  const makeSut = (): any => {
+  interface SubTypes {
+    sut: AccountRepository
+    encrypterStub: Encrypter
+  }
+  const makeEncrypter = (): Encrypter => {
     class EncrypterStub implements Encrypter {
       async encrypt (value: string): Promise<string> {
         return await new Promise(resolve => resolve('encrypted_password'))
       }
     }
-    const encrypterStub = new EncrypterStub()
+    return new EncrypterStub()
+  }
+  const makeSut = (): SubTypes => {
+    const encrypterStub = makeEncrypter()
     const sut = new AccountRepository(encrypterStub)
     return {
       sut,
