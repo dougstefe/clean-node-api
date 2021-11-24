@@ -6,6 +6,6 @@ export interface AddAccountModel {
   password: string
 }
 
-export interface AccountService{
+export interface Account {
   add (account: AddAccountModel): Promise<AccountModel>
 }
