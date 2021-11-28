@@ -1,4 +1,4 @@
-import { AddAccountModel, Account } from '../../domain/interfaces/account'
+import { AddAccountModel, AddAccount } from '../../domain/usecases/add-account'
 import { AccountModel } from '../../domain/models'
 import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
 import { EmailValidator } from '../protocols'
@@ -7,7 +7,7 @@ import SignUpController from './sign-up-controller'
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
-  accountServiceStub: Account
+  accountServiceStub: AddAccount
 }
 
 const makeEmailValidator = (): EmailValidator => {
@@ -19,8 +19,8 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
-const makeAccountServiceAdd = (): Account => {
-  class AccountServiceStub implements Account {
+const makeAccountServiceAdd = (): AddAccount => {
+  class AccountServiceStub implements AddAccount {
     async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
       const accountModelMock = {
         id: 'valid_id',
