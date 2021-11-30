@@ -90,4 +90,19 @@ describe('AccountRepository', () => {
     const promise = sut.add(addAccountModelMock)
     await expect(promise).rejects.toThrow()
   })
+  test('Should return account', async () => {
+    const { sut } = makeSut()
+    const addAccountModelMock = {
+      name: 'valid_name',
+      email: 'valid@email.com',
+      password: 'valid_password'
+    }
+    const result = await sut.add(addAccountModelMock)
+    expect(result).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid@email.com',
+      password: 'encrypted_password'
+    })
+  })
 })
