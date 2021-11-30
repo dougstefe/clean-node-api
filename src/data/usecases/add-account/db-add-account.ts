@@ -15,6 +15,6 @@ export class AccountRepository implements AddAccount {
   async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
     const encryptedPassword = await this.encrypter.encrypt(addAccountModel.password)
     const accountModel = await this.addAccountRepository.add(Object.assign({}, addAccountModel, { password: encryptedPassword }))
-    return await new Promise(resolve => resolve(accountModel))
+    return accountModel
   }
 }
