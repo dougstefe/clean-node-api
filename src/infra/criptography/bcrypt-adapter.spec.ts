@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import { BCryptAdapter } from './bcrypt-adapter'
 
 jest.mock('bcrypt', () => ({
-  async hash (data: string, salt: number): Promise<string> {
+  async hash (data: string, saltOrRounds: number): Promise<string> {
     return await new Promise(resolve => resolve('hashed'))
   }
 }))
@@ -19,9 +19,15 @@ describe('BCrypt Adapter', () => {
     await sut.encrypt('any_value')
     expect(hashSpy).toHaveBeenCalledWith('any_value', salt)
   })
-  test('Should returns hashed', async () => {
+  test('Should return hashed', async () => {
     const sut = makeSut()
     const result = await sut.encrypt('any_value')
     expect(result).toEqual('hashed')
   })
+  // test('Should throw if bcrypt throws', async () => {
+  //   const sut = makeSut()
+  //   jest.spyOn(bcrypt, 'hash').mockImplementationOnce((): Promise<string> => Promise.reject(new Error()))
+  //   const promise = sut.encrypt('any_value')
+  //   await expect(promise).rejects.toThrow()
+  // })
 })
