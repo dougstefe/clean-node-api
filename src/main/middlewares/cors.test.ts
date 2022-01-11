@@ -26,7 +26,6 @@ describe('CORS Middleware', () => {
     })
     await request(app)
       .get('/test-cors')
-      .send()
       .expect('access-control-allow-headers', '*')
   })
 })
