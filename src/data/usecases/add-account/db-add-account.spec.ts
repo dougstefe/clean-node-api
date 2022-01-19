@@ -2,7 +2,7 @@ import { AccountModel } from '../../../domain/models'
 import { AddAccountModel } from '../../../domain/usecases/add-account'
 import { AddAccountRepository } from '../../interfaces/add-account-repository'
 import { Encrypter } from '../../interfaces/encrypter'
-import { AccountRepository } from './db-add-account'
+import { DbAddAccount } from './db-add-account'
 
 describe('AccountRepository', () => {
   const makeEncrypter = (): Encrypter => {
@@ -28,14 +28,14 @@ describe('AccountRepository', () => {
     return new AddAccountRepositoryStub()
   }
   interface SubTypes {
-    sut: AccountRepository
+    sut: DbAddAccount
     encrypterStub: Encrypter
     addAccountRepositoryStub: AddAccountRepository
   }
   const makeSut = (): SubTypes => {
     const encrypterStub = makeEncrypter()
     const addAccountRepositoryStub = makeAddAccountRepository()
-    const sut = new AccountRepository(encrypterStub, addAccountRepositoryStub)
+    const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub)
     return {
       sut,
       encrypterStub,
