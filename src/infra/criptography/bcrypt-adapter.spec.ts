@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { BCryptAdapter } from './bcrypt-adapter'
+import { BcryptAdapter } from './bcrypt-adapter'
 
 jest.mock('bcrypt', () => ({
   async hash (data: string, saltOrRounds: number): Promise<string> {
@@ -8,8 +8,8 @@ jest.mock('bcrypt', () => ({
 }))
 
 const salt = 12
-const makeSut = (): BCryptAdapter => {
-  return new BCryptAdapter(salt)
+const makeSut = (): BcryptAdapter => {
+  return new BcryptAdapter(salt)
 }
 
 describe('BCrypt Adapter', () => {

@@ -2,7 +2,7 @@ import { AddAccountModel, AddAccount } from '../../domain/usecases/add-account'
 import { AccountModel } from '../../domain/models'
 import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
 import { EmailValidator } from '../protocols'
-import SignUpController from './sign-up-controller'
+import { SignUpController } from './sign-up-controller'
 
 interface SutTypes {
   sut: SignUpController

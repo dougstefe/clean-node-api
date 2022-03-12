@@ -3,7 +3,7 @@ import { AccountModel } from '../../../domain/models'
 import { Encrypter } from '../../interfaces/encrypter'
 import { AddAccountRepository } from '../../interfaces/add-account-repository'
 
-export class AccountRepository implements AddAccount {
+export class DbAddAccount implements AddAccount {
   private readonly encrypter: Encrypter
   private readonly addAccountRepository: AddAccountRepository
 
