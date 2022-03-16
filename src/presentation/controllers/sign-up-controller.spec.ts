@@ -130,7 +130,7 @@ describe('SignUpController', () => {
   test('Should return 500 EmailValidator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new ServerError()
+      throw new ServerError(new Error())
     })
     const httpRequest = {
       body: {
@@ -142,7 +142,7 @@ describe('SignUpController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(new Error('')))
   })
   test('Should return 400 if password confirmation fail', async () => {
     const { sut } = makeSut()
@@ -161,7 +161,7 @@ describe('SignUpController', () => {
   test('Should return 500 AccountService.Add throws', async () => {
     const { sut, accountServiceStub } = makeSut()
     jest.spyOn(accountServiceStub, 'add').mockImplementationOnce(() => {
-      throw new ServerError()
+      throw new ServerError(new Error())
     })
     const httpRequest = {
       body: {
@@ -173,7 +173,7 @@ describe('SignUpController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(new Error('')))
   })
   test('Should call AddAccount with correct values', async () => {
     const { sut, accountServiceStub } = makeSut()
