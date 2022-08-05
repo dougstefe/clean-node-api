@@ -1,7 +1,7 @@
-import { AddAccount } from '../../domain/usecases/add-account'
-import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
-import { badRequest, created, internalServerError } from '../helpers/http-helper'
-import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../protocols'
+import { AddAccount } from '../../../domain/usecases/add-account'
+import { InvalidFieldError, RequiredFieldError, ServerError } from '../../errors'
+import { badRequest, created, internalServerError } from '../../helpers/http-helper'
+import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../../protocols'
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator

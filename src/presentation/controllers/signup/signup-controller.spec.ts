@@ -1,9 +1,9 @@
-import { AddAccountModel, AddAccount } from '../../domain/usecases/add-account'
-import { AccountModel } from '../../domain/models'
-import { InvalidFieldError, RequiredFieldError, ServerError } from '../errors'
-import { EmailValidator, HttpRequest } from '../protocols'
-import { SignUpController } from './sign-up-controller'
-import { badRequest, created, internalServerError } from '../helpers/http-helper'
+import { AddAccountModel, AddAccount } from '../../../domain/usecases/add-account'
+import { AccountModel } from '../../../domain/models'
+import { InvalidFieldError, RequiredFieldError, ServerError } from '../../errors'
+import { EmailValidator, HttpRequest } from '../../protocols'
+import { SignUpController } from './signup-controller'
+import { badRequest, created, internalServerError } from '../../helpers/http-helper'
 
 const makeRequestMock = (): HttpRequest => ({
   body: {
