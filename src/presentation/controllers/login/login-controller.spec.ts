@@ -1,4 +1,4 @@
-import { RequiredFieldError } from '../../errors'
+import { InvalidFieldError, RequiredFieldError } from '../../errors'
 import { badRequest } from '../../helpers/http-helper'
 import { EmailValidator, HttpRequest } from '../../protocols'
 import { LoginController } from './login-controller'
@@ -56,6 +56,16 @@ describe('LoginController', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(badRequest(new RequiredFieldError('password')))
+  })
+
+  test('Should return 400 if an invalid email is provided', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const httpRequest = makeHttpRequest()
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(badRequest(new InvalidFieldError('email')))
   })
 
   test('Should call EmailValidator with correct email', async () => {
