@@ -10,11 +10,11 @@ const makeHttpRequest = (): HttpRequest => ({
   }
 })
 
-interface ISutTypes {
+interface SutTypes {
   sut: LoginController
 }
 
-const makeSut = (): ISutTypes => {
+const makeSut = (): SutTypes => {
   const sut = new LoginController()
   return {
     sut
