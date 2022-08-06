@@ -1,6 +1,6 @@
 import { Authentication } from '../../../domain/usecases/authentication'
 import { InvalidFieldError, RequiredFieldError } from '../../errors'
-import { badRequest, internalServerError, unauthorized } from '../../helpers/http-helper'
+import { badRequest, internalServerError, ok, unauthorized } from '../../helpers/http-helper'
 import { Controller, EmailValidator, HttpRequest, HttpResponse } from '../../protocols'
 
 export class LoginController implements Controller {
@@ -22,6 +22,7 @@ export class LoginController implements Controller {
       if (!accessToken) {
         return unauthorized()
       }
+      return ok({ accessToken })
     } catch (error) {
       return internalServerError(error)
     }
