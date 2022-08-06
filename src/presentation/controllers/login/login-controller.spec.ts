@@ -1,6 +1,6 @@
 import { Authentication } from '../../../domain/usecases/authentication'
 import { InvalidFieldError, RequiredFieldError } from '../../errors'
-import { badRequest, internalServerError, unauthorized } from '../../helpers/http-helper'
+import { badRequest, internalServerError, ok, unauthorized } from '../../helpers/http-helper'
 import { EmailValidator, HttpRequest } from '../../protocols'
 import { LoginController } from './login-controller'
 
@@ -130,5 +130,14 @@ describe('LoginController', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(internalServerError(new Error()))
+  })
+
+  test('Should return 200 if valid credentials', async () => {
+    const { sut } = makeSut()
+    const httpRequest = makeHttpRequest()
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
   })
 })
