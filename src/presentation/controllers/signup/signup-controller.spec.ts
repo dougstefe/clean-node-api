@@ -4,6 +4,7 @@ import { InvalidFieldError, RequiredFieldError, ServerError } from '../../errors
 import { EmailValidator, HttpRequest } from '../../protocols'
 import { SignUpController } from './signup-controller'
 import { badRequest, created, internalServerError } from '../../helpers/http-helper'
+import { Validation } from '../../helpers/validators/validation'
 
 const makeRequestMock = (): HttpRequest => ({
   body: {
@@ -30,6 +31,15 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (_input: any): Error {
+      return null
+    }
+  }
+  return new ValidationStub()
+}
+
 const makeAccountServiceAdd = (): AddAccount => {
   class AccountServiceStub implements AddAccount {
     async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
@@ -43,16 +53,19 @@ interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
   accountServiceStub: AddAccount
+  validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const accountServiceStub = makeAccountServiceAdd()
-  const sut = new SignUpController(emailValidatorStub, accountServiceStub)
+  const validationStub = makeValidation()
+  const sut = new SignUpController(emailValidatorStub, accountServiceStub, validationStub)
   return {
     sut,
     emailValidatorStub,
-    accountServiceStub
+    accountServiceStub,
+    validationStub
   }
 }
 
@@ -166,5 +179,15 @@ describe('SignUpController', () => {
     const httpRequest = makeRequestMock()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(created(makeAccountModelMock()))
+  })
+
+  test('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+    const httpRequest = makeRequestMock()
+
+    await sut.handle(httpRequest)
+
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
