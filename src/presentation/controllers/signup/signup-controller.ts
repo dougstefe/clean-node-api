@@ -1,12 +1,11 @@
 import { AddAccount } from '../../../domain/usecases/add-account'
-import { InvalidFieldError, ServerError } from '../../errors'
+import { ServerError } from '../../errors'
 import { badRequest, created, internalServerError } from '../../helpers/http-helper'
 import { Validation } from '../../helpers/validators/validation'
-import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../../protocols'
+import { HttpRequest, HttpResponse, Controller } from '../../protocols'
 
 export class SignUpController implements Controller {
   constructor (
-    private readonly emailValidator: EmailValidator,
     private readonly addAccount: AddAccount,
     private readonly validation: Validation
   ) {}
@@ -18,9 +17,7 @@ export class SignUpController implements Controller {
         return badRequest(error)
       }
       const { name, email, password } = httpRequest.body
-      if (!this.emailValidator.isValid(email)) {
-        return badRequest(new InvalidFieldError('email'))
-      }
+
       const accountModel = await this.addAccount.add({
         name,
         email,
