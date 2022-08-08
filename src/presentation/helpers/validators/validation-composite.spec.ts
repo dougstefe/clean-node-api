@@ -1,4 +1,4 @@
-import { RequiredFieldError } from '../../errors'
+import { InvalidFieldError, RequiredFieldError } from '../../errors'
 import { Validation } from './validation'
 import { ValidationComposite } from './validation-composite'
 
@@ -32,6 +32,16 @@ describe('ValidationComposite', () => {
   test('Should returns an error if validation fails', () => {
     const { sut, validationStubs } = makeSut()
     jest.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new RequiredFieldError('field'))
+
+    const error = sut.validate({ field: 'any_value' })
+
+    expect(error).toEqual(new RequiredFieldError('field'))
+  })
+
+  test('Should returns the first error if one or more validation fails', () => {
+    const { sut, validationStubs } = makeSut()
+    jest.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new RequiredFieldError('field'))
+    jest.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new InvalidFieldError('field'))
 
     const error = sut.validate({ field: 'any_value' })
 
