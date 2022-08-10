@@ -3,7 +3,7 @@ import { AccountModel } from '../../../domain/models'
 import { RequiredFieldError, ServerError } from '../../errors'
 import { HttpRequest } from '../../protocols'
 import { SignUpController } from './signup-controller'
-import { badRequest, created, internalServerError } from '../../helpers/http-helper'
+import { badRequest, created, internalServerError } from '../../helpers/http/http-helper'
 import { Validation } from '../../helpers/validators/validation'
 
 const makeRequestMock = (): HttpRequest => ({

@@ -1,6 +1,6 @@
 import { AddAccount } from '../../../domain/usecases/add-account'
 import { ServerError } from '../../errors'
-import { badRequest, created, internalServerError } from '../../helpers/http-helper'
+import { badRequest, created, internalServerError } from '../../helpers/http/http-helper'
 import { Validation } from '../../helpers/validators/validation'
 import { HttpRequest, HttpResponse, Controller } from '../../protocols'
 
