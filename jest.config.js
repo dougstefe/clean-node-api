@@ -3,6 +3,9 @@ module.exports = {
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/main/**'
   ],
+  coveragePathIgnorePatterns: [
+    "index.ts"
+  ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   preset: '@shelf/jest-mongodb',
