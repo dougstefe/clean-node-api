@@ -1,4 +1,4 @@
-import { Authentication } from '../../../domain/usecases/authentication'
+import { Authentication, AuthenticationModel } from '../../../domain/usecases/authentication'
 import { RequiredFieldError } from '../../errors'
 import { badRequest, internalServerError, ok, unauthorized } from '../../helpers/http/http-helper'
 import { Validation } from '../../protocols/validation'
@@ -7,7 +7,7 @@ import { LoginController } from './login-controller'
 
 const makeAuthenticationStub = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (_email: string, _password: string): Promise<string> {
+    async auth (_credentials: AuthenticationModel): Promise<string> {
       return 'any_token'
     }
   }
@@ -55,7 +55,7 @@ describe('LoginController', () => {
 
     await sut.handle(httpRequest)
 
-    expect(authSpy).toHaveBeenCalledWith('any_email@email.com', 'any_password')
+    expect(authSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 
   test('Should return 401 if invalid credentials', async () => {
