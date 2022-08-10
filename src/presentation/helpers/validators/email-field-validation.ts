@@ -1,6 +1,6 @@
 import { InvalidFieldError } from '../../errors'
 import { EmailValidator } from '../../protocols'
-import { Validation } from './validation'
+import { Validation } from '../../protocols/validation'
 
 export class EmailFieldValidation implements Validation {
   constructor (private readonly fieldName: string, private readonly emailValidator: EmailValidator) {}

@@ -1,7 +1,7 @@
 import { Authentication } from '../../../domain/usecases/authentication'
 import { RequiredFieldError } from '../../errors'
 import { badRequest, internalServerError, ok, unauthorized } from '../../helpers/http/http-helper'
-import { Validation } from '../../helpers/validators/validation'
+import { Validation } from '../../protocols/validation'
 import { HttpRequest } from '../../protocols'
 import { LoginController } from './login-controller'
 

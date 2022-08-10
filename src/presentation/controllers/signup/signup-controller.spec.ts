@@ -4,7 +4,7 @@ import { RequiredFieldError, ServerError } from '../../errors'
 import { HttpRequest } from '../../protocols'
 import { SignUpController } from './signup-controller'
 import { badRequest, created, internalServerError } from '../../helpers/http/http-helper'
-import { Validation } from '../../helpers/validators/validation'
+import { Validation } from '../../protocols/validation'
 
 const makeRequestMock = (): HttpRequest => ({
   body: {
