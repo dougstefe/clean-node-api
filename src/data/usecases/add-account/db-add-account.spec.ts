@@ -1,7 +1,7 @@
 import { AccountModel } from '../../../domain/models'
 import { AddAccountModel } from '../../../domain/usecases/add-account'
-import { AddAccountRepository } from '../../interfaces/add-account-repository'
-import { Encrypter } from '../../interfaces/encrypter'
+import { AddAccountRepository } from '../../interfaces/db/add-account-repository'
+import { Encrypter } from '../../interfaces/criptography/encrypter'
 import { DbAddAccount } from './db-add-account'
 
 describe('AccountRepository', () => {

@@ -1,6 +1,6 @@
 import { AccountModel } from '../../../domain/models'
 import { AuthenticationModel } from '../../../domain/usecases/authentication'
-import { FindAccountByEmailRepository } from '../../interfaces/find-account-by-email-repository'
+import { FindAccountByEmailRepository } from '../../interfaces/db/find-account-by-email-repository'
 import { DbAuthentication } from './db-authentication'
 
 const makeFindAccountByEmailRepository = (): FindAccountByEmailRepository => {

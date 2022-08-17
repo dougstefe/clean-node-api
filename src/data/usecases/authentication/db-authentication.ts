@@ -1,5 +1,5 @@
 import { Authentication, AuthenticationModel } from '../../../domain/usecases/authentication'
-import { FindAccountByEmailRepository } from '../../interfaces/find-account-by-email-repository'
+import { FindAccountByEmailRepository } from '../../interfaces/db/find-account-by-email-repository'
 
 export class DbAuthentication implements Authentication {
   constructor (private readonly findAccountByEmailRepository: FindAccountByEmailRepository) {}
