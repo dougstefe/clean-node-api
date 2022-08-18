@@ -52,4 +52,11 @@ describe('DbAuthentication', () => {
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow('any_error')
   })
+
+  test('Should return null if FindAccountByEmailRepository not found account', async () => {
+    const { sut, findAccountByEmailRepository } = makeSut()
+    jest.spyOn(findAccountByEmailRepository, 'findByEmail').mockImplementation(async () => null)
+    const response = await sut.auth(makeFakeAuthentication())
+    expect(response).toBeNull()
+  })
 })
