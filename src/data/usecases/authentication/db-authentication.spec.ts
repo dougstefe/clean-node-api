@@ -59,14 +59,14 @@ describe('DbAuthentication', () => {
     expect(findSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 
-  test('Should throw if findAccountByEmailRepositoryStub throw', async () => {
+  test('Should throw if FindAccountByEmailRepository throw', async () => {
     const { sut, findAccountByEmailRepositoryStub } = makeSut()
     jest.spyOn(findAccountByEmailRepositoryStub, 'findByEmail').mockImplementation(async () => await Promise.reject(new Error('any_error')))
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow('any_error')
   })
 
-  test('Should return null if findAccountByEmailRepositoryStub not found account', async () => {
+  test('Should return null if FindAccountByEmailRepository not found account', async () => {
     const { sut, findAccountByEmailRepositoryStub } = makeSut()
     jest.spyOn(findAccountByEmailRepositoryStub, 'findByEmail').mockImplementation(async () => null)
     const response = await sut.auth(makeFakeAuthentication())
@@ -78,5 +78,12 @@ describe('DbAuthentication', () => {
     const compareSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeFakeAuthentication())
     expect(compareSpy).toHaveBeenCalledWith('any_password', 'hashed_password')
+  })
+
+  test('Should throw if HashComparer throw', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    jest.spyOn(hashComparerStub, 'compare').mockImplementation(async () => await Promise.reject(new Error('any_error')))
+    const promise = sut.auth(makeFakeAuthentication())
+    await expect(promise).rejects.toThrow('any_error')
   })
 })
