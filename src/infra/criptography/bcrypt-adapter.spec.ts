@@ -16,12 +16,12 @@ describe('BCrypt Adapter', () => {
   test('Should call bcrypt', async () => {
     const sut = makeSut()
     const hashSpy = jest.spyOn(bcrypt, 'hash')
-    await sut.encrypt('any_value')
+    await sut.hash('any_value')
     expect(hashSpy).toHaveBeenCalledWith('any_value', salt)
   })
   test('Should return hashed', async () => {
     const sut = makeSut()
-    const result = await sut.encrypt('any_value')
+    const result = await sut.hash('any_value')
     expect(result).toEqual('hashed')
   })
   // test('Should throw if bcrypt throws', async () => {
