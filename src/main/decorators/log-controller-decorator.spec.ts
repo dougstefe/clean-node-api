@@ -1,4 +1,4 @@
-import { LogErrorRepository } from '../../data/interfaces/db/log-error-repository'
+import { LogErrorRepository } from '../../data/interfaces/db/log/log-error-repository'
 import { AccountModel } from '../../domain/models'
 import { created, internalServerError } from '../../presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols'
